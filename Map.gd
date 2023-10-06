@@ -1,0 +1,60 @@
+extends Node2D
+
+@onready
+var tile : TileMap= $TileMap
+@onready
+var timer = $Timer
+@onready
+var checkbutton = $HFlowContainer/CheckButton
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready():
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta):
+	pass
+
+func _unhandled_input(event):
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			if event.pressed:
+				
+				var mouse_pos = get_global_mouse_position()
+				var tile_map_position = tile.local_to_map(mouse_pos)
+				var atlas_pos = Vector2i(0,0)
+				
+				if tile.get_cell_source_id(0, tile_map_position) == 0:
+					tile.set_cell(0,tile_map_position,-1)
+				else:
+					tile.set_cell(0,tile_map_position,0, atlas_pos)
+				
+			else:
+				print("Left button was released")
+#		if event.button_index == BUTTON_WHEEL_DOWN:
+#			print("Wheel down")
+
+
+
+#TImer timeout, update state
+func _on_timer_timeout():
+	print("Timeout")
+
+#Start Pause
+func _on_check_button_pressed():
+	
+	if checkbutton.button_pressed:
+		print("******************TRUE***************")
+		timer.start()
+	else:
+		print("******************FALSE***************")
+		timer.stop()
+
+
+#Clear game state
+func _on_button_pressed():
+	print("Clear")
+
+

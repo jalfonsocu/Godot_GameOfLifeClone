@@ -1,0 +1,42 @@
+[gd_scene load_steps=5 format=3 uid="uid://du85l8t3wivrd"]
+
+[ext_resource type="Script" path="res://Map.gd" id="1_j8ckn"]
+[ext_resource type="Texture2D" uid="uid://dufrcbdxapw21" path="res://assets/TileOn.png" id="2_sk5bi"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_4n5tj"]
+texture = ExtResource("2_sk5bi")
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3vp6i"]
+sources/0 = SubResource("TileSetAtlasSource_4n5tj")
+
+[node name="Node2D" type="Node2D"]
+script = ExtResource("1_j8ckn")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.5
+
+[node name="HFlowContainer" type="HFlowContainer" parent="."]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CheckButton" type="CheckButton" parent="HFlowContainer"]
+layout_mode = 2
+text = "Detener/Iniciar"
+
+[node name="Button" type="Button" parent="HFlowContainer"]
+layout_mode = 2
+text = "Limpiar"
+
+[node name="Label" type="Label" parent="HFlowContainer"]
+layout_mode = 2
+text = "Iteration: 0 
+Alive: 0"
+
+[node name="TileMap" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_3vp6i")
+format = 2
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="pressed" from="HFlowContainer/CheckButton" to="." method="_on_check_button_pressed"]
+[connection signal="pressed" from="HFlowContainer/Button" to="." method="_on_button_pressed"]
