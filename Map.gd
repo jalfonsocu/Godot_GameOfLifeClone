@@ -6,6 +6,12 @@ var tile : TileMap= $TileMap
 var timer = $Timer
 @onready
 var checkbutton = $HFlowContainer/CheckButton
+@onready
+var label_status = $HFlowContainer/Label
+
+var lv = LiveLogic.new()
+
+var atlas_pos = Vector2i(0,0)
 
 
 # Called when the node enters the scene tree for the first time.
@@ -24,12 +30,15 @@ func _unhandled_input(event):
 				
 				var mouse_pos = get_global_mouse_position()
 				var tile_map_position = tile.local_to_map(mouse_pos)
-				var atlas_pos = Vector2i(0,0)
+				
 				
 				if tile.get_cell_source_id(0, tile_map_position) == 0:
 					tile.set_cell(0,tile_map_position,-1)
+					lv.remove_cell(tile_map_position)
 				else:
 					tile.set_cell(0,tile_map_position,0, atlas_pos)
+					
+					lv.add_cell(tile_map_position)
 				
 			else:
 				print("Left button was released")
@@ -40,21 +49,31 @@ func _unhandled_input(event):
 
 #TImer timeout, update state
 func _on_timer_timeout():
-	print("Timeout")
+	tile.clear()
+	lv.next_state()
+	
+	for c in lv.enviroment:
+		tile.set_cell(0,c,0, atlas_pos)
+	label_status.text = "Generation: " + str(lv.generation) + " Alive: " + str(lv.population)
+
+
+
 
 #Start Pause
 func _on_check_button_pressed():
 	
 	if checkbutton.button_pressed:
-		print("******************TRUE***************")
 		timer.start()
 	else:
-		print("******************FALSE***************")
 		timer.stop()
 
 
 #Clear game state
 func _on_button_pressed():
-	print("Clear")
-
+	timer.stop()
+	lv.enviroment.clear()
+	tile.clear()
+	lv.generation = 0
+	lv.population = 0
+	label_status.text = "Generation: " + str(0) + " Alive: " + str(0)
 

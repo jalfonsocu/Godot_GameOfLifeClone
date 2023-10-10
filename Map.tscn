@@ -14,7 +14,7 @@ sources/0 = SubResource("TileSetAtlasSource_4n5tj")
 script = ExtResource("1_j8ckn")
 
 [node name="Timer" type="Timer" parent="."]
-wait_time = 0.5
+wait_time = 0.2
 
 [node name="HFlowContainer" type="HFlowContainer" parent="."]
 offset_right = 40.0
@@ -30,8 +30,7 @@ text = "Limpiar"
 
 [node name="Label" type="Label" parent="HFlowContainer"]
 layout_mode = 2
-text = "Iteration: 0 
-Alive: 0"
+text = "Generation: 0 Alive: 0"
 
 [node name="TileMap" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3vp6i")
